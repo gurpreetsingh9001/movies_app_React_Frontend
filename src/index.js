@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -12,9 +13,9 @@ import 'font-awesome/css/font-awesome.css';
 /// there are also components in table which is like component in component but still is complex than general
 
 ReactDOM.render(
-  <React.StrictMode>
+  <BrowserRouter>
     <App />
-  </React.StrictMode>,
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
