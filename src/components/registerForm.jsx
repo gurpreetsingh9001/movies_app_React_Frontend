@@ -4,7 +4,7 @@ import Form from "./common/form";
 
 class RegisterForm extends Form {
   state = {
-    data: { username: "", password: "", name: "" }, //always initialise the values of form to empty sting or value from server // react will give error if it null or undefined
+    data: { username: "", password: "", name: "" },
     errors: {},
   };
 

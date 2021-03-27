@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 import MoviesTable from "./moviesTable";
@@ -85,7 +86,14 @@ class Movies extends Component {
             onItemSelect={this.handleGenreSelect} // like here handleGenreSelect is manipulating selectGenre
           />
         </div>
-        <div className="col">
+        <div onCLick={this.handleNewMovie} className="col">
+          <Link
+            to="movies/new"
+            className="btn btn-primary"
+            style={{ marginBottom: 20 }}
+          >
+            New Movie
+          </Link>
           <p>Showing {filteredMovies.length} movies in database</p>
           <MoviesTable
             movies={currentPagemovies}
