@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { getMovies } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+import { toast } from "react-toastify";
+import { deleteMovie, getMovies } from "../services/movieService";
+import { getGenres } from "../services/genreService";
 import MoviesTable from "./moviesTable";
 import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
@@ -19,14 +20,26 @@ class Movies extends Component {
   };
 
   //its take time to fetch movies and genre from backend so we dont need to stuck it during page load it will slowdown the page load, so we fetch them after page loads
-  componentDidMount() {
-    const genres = [{ _id: "", name: "All Genres" }, ...getGenres()]; // clone genres present in Genre file and also add All genre to it by our self without manipulated the genre file
-    this.setState({ movies: getMovies(), genres });
+  async componentDidMount() {
+    const { data } = await getGenres();
+    const genres = [{ _id: "", name: "All Genres" }, ...data]; // clone genres present in Genre file and also add All genre to it by our self without manipulated the genre file
+    const { data: movies } = await getMovies();
+    this.setState({ movies, genres });
   }
 
-  handleDelete = (movie) => {
-    const movies = this.state.movies.filter((m) => m._id !== movie._id);
+  handleDelete = async (movie) => {
+    const moviesBeforeDelete = this.state.movies;
+    const movies = moviesBeforeDelete.filter((m) => m._id !== movie._id);
     this.setState({ movies });
+
+    try {
+      await deleteMovie(movie._id);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) {
+        toast.error("this movie already deleted");
+        this.setState({ moviesBeforeDelete });
+      }
+    }
   };
 
   handleLike = (movie) => {

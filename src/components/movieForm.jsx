@@ -1,8 +1,8 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
-import { getMovie, saveMovie } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+import { getMovie, saveMovie } from "../services/movieService";
+import { getGenres } from "../services/genreService";
 
 class MovieForm extends Form {
   state = {
@@ -27,17 +27,23 @@ class MovieForm extends Form {
       .label("Daily Rental Rate"),
   };
 
-  componentDidMount() {
-    const genres = getGenres();
+  //we can move get genre and movies to seperate methods
+  async componentDidMount() {
+    //get genres
+    const { data: genres } = await getGenres(); //get data property from response // that why we used curly braces because we are not using full object returned
     this.setState({ genres });
 
-    const movieId = this.props.match.params.id;
-    if (movieId === "new") return;
-
-    const movie = getMovie(movieId);
-    if (!movie) return this.props.history.replace("/not-found");
-
-    this.setState({ data: this.mapToViewModel(movie) }); //the movie object returned may not be exact what we wanted so we need to map value according to our own
+    //get movies
+    try {
+      const movieId = this.props.match.params.id;
+      if (movieId === "new") return;
+      const { data: movie } = await getMovie(movieId);
+      this.setState({ data: this.mapToViewModel(movie) }); //the movie object returned may not be exact what we wanted so we need to map value according to our own
+    } catch (ex) {
+      // if movie Id is invalid redirect to 404 page
+      if (ex.response && ex.response.status === 404)
+        this.props.history.replace("/not-found");
+    }
   }
 
   mapToViewModel(movie) {
@@ -58,7 +64,7 @@ class MovieForm extends Form {
   render() {
     return (
       <div>
-        <h1>Login</h1>
+        <h1>Movie Form</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("title", "Title")}
           {this.renderSelect("genreId", "Genre", this.state.genres)}
