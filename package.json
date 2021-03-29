@@ -1,5 +1,6 @@
 {
   "name": "vitty",
+  "homepage": "http://gurpreet.tech",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

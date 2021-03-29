@@ -99,7 +99,7 @@ class Movies extends Component {
             onItemSelect={this.handleGenreSelect} // like here handleGenreSelect is manipulating selectGenre
           />
         </div>
-        <div onCLick={this.handleNewMovie} className="col">
+        <div onClick={this.handleNewMovie} className="col">
           <Link
             to="movies/new"
             className="btn btn-primary"
