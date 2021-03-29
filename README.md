@@ -1,7 +1,6 @@
-# Hosted at
+# Hosted (in development)
 
-https://vitty.herokuapp.com/
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+https://vitty.herokuapp.com/<br>
 
 ## Available Scripts
 
