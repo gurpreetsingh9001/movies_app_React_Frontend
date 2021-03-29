@@ -72,6 +72,8 @@ class Movies extends Component {
       sortColumn,
     } = this.state;
 
+    if (moviescount === 0) return <p>There are no movies in database</p>;
+
     //first filter the movies according to filter than sort them and then paginated
     const filteredMovies =
       selectedGenre && selectedGenre._id
